@@ -30,3 +30,5 @@ Comandes a crear:
 -mostra <fitxer>: funció per mostrar el contingut d'un fitxer
 -superUser: funció per tindre permisos d'administrador i estar en super usuari
 -crea <fitxer>: funció per crear un fitxer
+-help: apartat d'ajuda
+-about: informació sobre l'OS
