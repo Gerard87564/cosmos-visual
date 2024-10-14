@@ -1,0 +1,6 @@
+# Archius generats per Visual Studio 2022
+.vs/
+
+# Archius de compilació
+bin/Debug/net6.0/
+obj/
