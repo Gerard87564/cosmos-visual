@@ -25,7 +25,7 @@ Comandes a crear:
 -netejar: borra la pantalla
 -llistam: llista els subdirectoris
 -choose -u <user>: cambiar d'usuari
--apagar -ara: apagar el SO
+-apagar -a: apagar el SO
 -cambiarDir <dir>: permet moure't de directori
 -mostra <fitxer>: funció per mostrar el contingut d'un fitxer
 -superUser: funció per tindre permisos d'administrador i estar en super usuari
