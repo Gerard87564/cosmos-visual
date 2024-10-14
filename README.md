@@ -32,3 +32,4 @@ Comandes a crear:
 -crea <fitxer>: funció per crear un fitxer
 -help: apartat d'ajuda
 -about: informació sobre l'OS
+-reinicia: reinicia el sistema
