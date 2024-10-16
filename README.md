@@ -34,3 +34,14 @@ Comandes a crear:
 -about: informació sobre l'OS
 -reinicia: reinicia el sistema
 -crear -u:  crea un usuari
+-espai: mira el espai del sistema
+-sysdisk: Mira el sistema d'arxius
+-files: Mostra el llistat dels fitxers del directori
+-rfiles: Llegeix els fitxers del directori
+-nfile: Crea un nou fitxer
+-ndir: Crea un nou directori
+-delfdir: Borra un fitxer o directori
+-wtofile: Escriu al fitxer un contingut
+-mvfile: Mou un fitxer de ruta
+-rfile: Llegeix el contingut del fitxer
+-rbytesf: Llegeix els bytes del fitxer
