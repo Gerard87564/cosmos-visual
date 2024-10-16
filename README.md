@@ -33,3 +33,4 @@ Comandes a crear:
 -help: apartat d'ajuda
 -about: informació sobre l'OS
 -reinicia: reinicia el sistema
+-crear -u:  crea un usuari
