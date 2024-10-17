@@ -57,7 +57,8 @@ namespace CosmosKernel1
                 case "files":
                     Console.WriteLine("Introdueix nom del directori a mostrar el llistat dels seus fitxers: ");
                     var dir = Console.ReadLine();
-                    var files_list = Directory.GetFiles(dir);
+                    var dir2 = @"0:\" + dir;
+                    var files_list = Directory.GetFiles(dir2);
                     foreach (var file in files_list)
                     {
                         Console.WriteLine(file);
@@ -67,7 +68,8 @@ namespace CosmosKernel1
                 case "rfiles":
                     Console.WriteLine("Introdueix nom del directori a llegir els fitxers: ");
                     var rfiles = Console.ReadLine();
-                    var directory_list = Directory.GetDirectories(rfiles);
+                    var rdirfiles = @"0:\" + rfiles;
+                    var directory_list = Directory.GetDirectories(rdirfiles);
                     try
                     {
                         foreach (var file in directory_list)
@@ -88,10 +90,11 @@ namespace CosmosKernel1
                 case "nfile":
                     Console.WriteLine("Introdueix nom del nou fitxer: ");
                     var nfile = Console.ReadLine();
+                    var filePath = @"0:\" + nfile;
                     try
                     {
-                        var file_stream = File.Create(nfile);
-                        Console.WriteLine($"Fitxer '{file_stream}' creat correctament.");
+                        var file_stream = File.Create(filePath);
+                        Console.WriteLine($"Fitxer '{nfile}' creat correctament.");
                     }
                     catch (Exception e)
                     {
@@ -102,9 +105,10 @@ namespace CosmosKernel1
                 case "ndir":
                     Console.WriteLine("Introdueix nom del nou directori: ");
                     var ndir = Console.ReadLine();
+                    var filePathdir = @"0:\" + ndir;
                     try
                     {
-                        Directory.CreateDirectory(ndir);
+                        Directory.CreateDirectory(filePathdir);
                         Console.WriteLine($"Directori '{ndir}' creat correctament.");
                     }
                     catch (Exception e)
@@ -116,14 +120,15 @@ namespace CosmosKernel1
                 case "delfdir":
                     Console.WriteLine("Vols borrar fitxer o directori (f-d): ");
                     var option = Console.ReadLine();
-
+                    
                     if (option == "f")
                     {
                         Console.WriteLine("Escriu el nom del fitxer a borrar:");
                         var fileToDelete = Console.ReadLine();
+                        var filePathdelete= @"0:\" + fileToDelete;
                         try
                         {
-                            File.Delete(fileToDelete);
+                            File.Delete(filePathdelete);
                             Console.WriteLine($"Fitxer '{fileToDelete}' esborrat correctament.");
                         }
                         catch (Exception e)
@@ -135,9 +140,10 @@ namespace CosmosKernel1
                     {
                         Console.WriteLine("Escriu el nom del directori a borrar:");
                         var directoryToDelete = Console.ReadLine();
+                        var filePathdelete = @"0:\" + directoryToDelete;
                         try
                         {
-                            Directory.Delete(directoryToDelete);
+                            Directory.Delete(filePathdelete);
                             Console.WriteLine($"Directori '{directoryToDelete}' esborrat correctament.");
                         }
                         catch (Exception e)
@@ -154,11 +160,12 @@ namespace CosmosKernel1
                 case "wtofile":
                     Console.WriteLine("Escriu el nom del fitxer a escriure:");
                     var filew= Console.ReadLine();
+                    var filewrute = @"0:\" + filew;
                     Console.WriteLine("Escriu el que vols escriure:");
                     var contentw = Console.ReadLine();
                     try
                     {
-                        File.WriteAllText(filew, contentw);
+                        File.WriteAllText(filewrute, contentw);
                     }
                     catch (Exception e)
                     {
@@ -169,17 +176,20 @@ namespace CosmosKernel1
                 case "mvfile":
                     Console.WriteLine("Introdueix la ruta del fitxer a moure: ");
                     var filemv= Console.ReadLine();
+                    var filemvrute = @"0:\" + filemv;
                     Console.WriteLine("Introdueix la ruta final: ");
                     var newpath= Console.ReadLine();
-                    MoveFile(filemv, newpath);
+                    var newpath2 = @"0:\" + newpath;
+                    MoveFile(filemvrute, newpath2);
                     break;
 
                 case "rfile":
                     Console.WriteLine("Introdueix el nom del fitxer a llegir tot el seu contingut: ");
                     var rfile= Console.ReadLine();
+                    var readfile = @"0:\" + rfile;
                     try
                     {
-                        Console.WriteLine(File.ReadAllText(rfile));
+                        Console.WriteLine(File.ReadAllText(readfile));
                     }
                     catch (Exception e)
                     {
@@ -190,9 +200,10 @@ namespace CosmosKernel1
                 case "rbytesf":
                     Console.WriteLine("Introdueix el nom del fitxer a llegir els seus bytes: ");
                     var rbytesf = Console.ReadLine();
+                    var readfilebyte = @"0:\" + rbytesf;
                     try
                     {
-                        Console.WriteLine(File.ReadAllBytes(rbytesf));
+                        Console.WriteLine(File.ReadAllBytes(readfilebyte));
                     }
                     catch (Exception e)
                     {

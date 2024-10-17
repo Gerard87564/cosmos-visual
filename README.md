@@ -44,4 +44,8 @@ Comandes a crear:
 -wtofile: Escriu al fitxer un contingut
 -mvfile: Mou un fitxer de ruta
 -rfile: Llegeix el contingut del fitxer
+<<<<<<< HEAD
 -rbytesf: Llegeix els bytes del fitxer
+=======
+-rbytesf: Llegeix els bytes del fitxer
+>>>>>>> 64552283fc6b276e0811eddb64e66ec6489f77f5
