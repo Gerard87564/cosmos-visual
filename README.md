@@ -37,7 +37,6 @@ Comandes a crear:
 -espai: mira el espai del sistema
 -sysdisk: Mira el sistema d'arxius
 -files: Mostra el llistat dels fitxers del directori
--rfiles: Llegeix els fitxers del directori
 -nfile: Crea un nou fitxer
 -ndir: Crea un nou directori
 -delfdir: Borra un fitxer o directori
