@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Sys = Cosmos.System;
 
 namespace CosmosKernel1
@@ -61,29 +62,7 @@ namespace CosmosKernel1
                     var files_list = Directory.GetFiles(dir2);
                     foreach (var file in files_list)
                     {
-                        Console.WriteLine(file);
-                    }
-                    break;
-
-                case "rfiles":
-                    Console.WriteLine("Introdueix nom del directori a llegir els fitxers: ");
-                    var rfiles = Console.ReadLine();
-                    var rdirfiles = @"0:\" + rfiles;
-                    var directory_list = Directory.GetDirectories(rdirfiles);
-                    try
-                    {
-                        foreach (var file in directory_list)
-                        {
-                            var content = File.ReadAllText(file);
-
-                            Console.WriteLine("File name: " + file);
-                            Console.WriteLine("File size: " + content.Length);
-                            Console.WriteLine("Content: " + content);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
+                        Console.WriteLine("Nom del fitxer: " + file);
                     }
                     break;
 
@@ -179,7 +158,7 @@ namespace CosmosKernel1
                     var filemvrute = @"0:\" + filemv;
                     Console.WriteLine("Introdueix la ruta final: ");
                     var newpath= Console.ReadLine();
-                    var newpath2 = @"0:\" + newpath;
+                    var newpath2 = @"0:\" + newpath + @"\" + filemv;
                     MoveFile(filemvrute, newpath2);
                     break;
 
@@ -246,7 +225,6 @@ namespace CosmosKernel1
             Console.WriteLine("\nespai: mira el espai del sistema");
             Console.WriteLine("\nsysdisk: Mira el sistema d'arxius");
             Console.WriteLine("\nfiles: Mostra el llistat dels fitxers del directori");
-            Console.WriteLine("\nrfiles: Llegeix els fitxers del directori");
             Console.WriteLine("\nnfile: Crea un nou fitxer");
             Console.WriteLine("\nndir: Crea un nou directori");
             Console.WriteLine("\ndelfdir: Borra un fitxer o directori");
