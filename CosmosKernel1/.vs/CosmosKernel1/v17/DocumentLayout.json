@@ -3,8 +3,11 @@
   "WorkspaceRootPath": "C:\\Users\\gerar\\source\\repos\\CosmosKernel1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\gerar\\source\\repos\\CosmosKernel1\\CosmosKernel1\\Kernel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CosmosKernel1\\Kernel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0A5AD0A1-D084-44CE-B8D1-1372AB826C0A}|CosmosKernel1\\CosmosKernel1.csproj|c:\\users\\gerar\\source\\repos\\cosmoskernel1\\cosmoskernel1\\kernel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A5AD0A1-D084-44CE-B8D1-1372AB826C0A}|CosmosKernel1\\CosmosKernel1.csproj|solutionrelative:cosmoskernel1\\kernel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\gerar\\source\\repos\\CosmosKernelProvaGUI\\CosmosKernelProvaGUI\\Kernel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -28,9 +31,22 @@
               "RelativeDocumentMoniker": "CosmosKernel1\\Kernel.cs",
               "ToolTip": "C:\\Users\\gerar\\source\\repos\\CosmosKernel1\\CosmosKernel1\\Kernel.cs",
               "RelativeToolTip": "CosmosKernel1\\Kernel.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAgwCgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE4AAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-16T22:54:52.255Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Kernel.cs",
+              "DocumentMoniker": "C:\\Users\\gerar\\source\\repos\\CosmosKernelProvaGUI\\CosmosKernelProvaGUI\\Kernel.cs",
+              "RelativeDocumentMoniker": "..\\CosmosKernelProvaGUI\\CosmosKernelProvaGUI\\Kernel.cs",
+              "ToolTip": "C:\\Users\\gerar\\source\\repos\\CosmosKernelProvaGUI\\CosmosKernelProvaGUI\\Kernel.cs",
+              "RelativeToolTip": "..\\CosmosKernelProvaGUI\\CosmosKernelProvaGUI\\Kernel.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAAgAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-28T20:40:09.215Z",
               "EditorCaption": ""
             }
           ]
