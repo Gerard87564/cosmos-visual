@@ -1,0 +1,13 @@
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\obj\Debug\net6.0\CosmosKernelProvaGUI.csproj.AssemblyReference.cache
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\obj\Debug\net6.0\CosmosKernelProvaGUI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\obj\Debug\net6.0\CosmosKernelProvaGUI.AssemblyInfoInputs.cache
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\obj\Debug\net6.0\CosmosKernelProvaGUI.AssemblyInfo.cs
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\obj\Debug\net6.0\CosmosKernelProvaGUI.csproj.CoreCompileInputs.cache
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\obj\Debug\net6.0\CosmosKernelProvaGUI.sourcelink.json
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\bin\Debug\net6.0\CosmosKernelProvaGUI.deps.json
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\bin\Debug\net6.0\CosmosKernelProvaGUI.dll
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\bin\Debug\net6.0\CosmosKernelProvaGUI.pdb
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\obj\Debug\net6.0\CosmosKernelProvaGUI.dll
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\obj\Debug\net6.0\refint\CosmosKernelProvaGUI.dll
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\obj\Debug\net6.0\CosmosKernelProvaGUI.pdb
+C:\Users\gerar\source\repos\CosmosKernelProvaGUI\CosmosKernelProvaGUI\obj\Debug\net6.0\ref\CosmosKernelProvaGUI.dll

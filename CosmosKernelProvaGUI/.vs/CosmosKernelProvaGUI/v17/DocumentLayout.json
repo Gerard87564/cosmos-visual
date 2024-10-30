@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\gerar\\source\\repos\\CosmosKernelProvaGUI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F87DA822-9357-46E1-87DC-DA2ACD03BF62}|CosmosKernelProvaGUI\\CosmosKernelProvaGUI.csproj|c:\\users\\gerar\\source\\repos\\cosmoskernelprovagui\\cosmoskernelprovagui\\kernel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F87DA822-9357-46E1-87DC-DA2ACD03BF62}|CosmosKernelProvaGUI\\CosmosKernelProvaGUI.csproj|solutionrelative:cosmoskernelprovagui\\kernel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Kernel.cs",
+              "DocumentMoniker": "C:\\Users\\gerar\\source\\repos\\CosmosKernelProvaGUI\\CosmosKernelProvaGUI\\Kernel.cs",
+              "RelativeDocumentMoniker": "CosmosKernelProvaGUI\\Kernel.cs",
+              "ToolTip": "C:\\Users\\gerar\\source\\repos\\CosmosKernelProvaGUI\\CosmosKernelProvaGUI\\Kernel.cs",
+              "RelativeToolTip": "CosmosKernelProvaGUI\\Kernel.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAADwv2QAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-28T13:40:55.261Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

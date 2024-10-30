@@ -18,7 +18,6 @@ namespace CosmosKernel1
 
         public void DrawACSIIString(Canvas canvas, Color color, string s, int x, int y, int scale)
         {
-            //ASCII
             string[] lines = s.Split('\n');
             for (int l = 0; l < lines.Length; l++)
             {
