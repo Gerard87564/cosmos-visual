@@ -1,5 +1,5 @@
 # Archius generats per Visual Studio 2022
-CosmosKernel1/.vs
+.vs
 
 # Archius de compilació
-CosmosKernel1/CosmosKernel1/bin/Debug/net6.0
+bin/Debug/net6.0
