@@ -1,14 +1,18 @@
 # cosmos-visual
+## Començant 🚀
+### Prerequisits 📋
 Per a executar cosmos abans necessitaras una previa descarrega dels seus components , es a dir els prerequisits:
-
+```
 -Visual Studio 2022
 -Visual Studio 2022 Workload: .NET Desktop - .NET Desktop development
 -.NET 6.0
 -VMware Player o Workstation VMware Player
 -Microsoft Visual C++ 2010 Redistributable
+```
 
-També hauras d'escollir entre el User Kit o Dev Kit:
-
+### Instalació 🔧
+En cuant a la descarga hauras d'escollir entre el User Kit o Dev Kit:
+```
 User Kit:
 -Descarga la última versió de Cosmos (descarga el arxiu exe)
 -Espereu que finalitzi la descàrrega i executeu l'instal·lador. Deixeu que s'executi com a administrador. Assegureu-vos que Visual Studio 2022 NO s'està executant quan feu això.
@@ -18,9 +22,10 @@ User Kit:
 
 Per al Dev Kit l'instal.lació es una mica més complexa, recomano mirar el següent enllaç a la web de Cosmos:
 https://cosmosos.github.io/articles/Installation/DevKit.html
+```
 
-Comandes a crear: 
-
+### Comandes a crear 📌 
+```
 -delete -u <name>: espeficica el usuari a borrar
 -netejar: borra la pantalla
 -llistam: llista els subdirectoris
@@ -45,3 +50,4 @@ Comandes a crear:
 -rfile: Llegeix el contingut del fitxer
 -rbytesf: Llegeix els bytes del fitxer
 -rbytesf: Llegeix els bytes del fitxer
+```
