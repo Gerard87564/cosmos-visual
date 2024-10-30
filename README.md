@@ -1,4 +1,4 @@
-# cosmos-visual
+# GerardOS
 ## Començant 🚀
 ### Prerequisits 📋
 Per a executar cosmos abans necessitaras una previa descarrega dels seus components , es a dir els prerequisits:
