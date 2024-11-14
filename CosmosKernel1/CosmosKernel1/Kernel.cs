@@ -5,6 +5,11 @@ using System.Text;
 using Sys = Cosmos.System;
 using Cosmos.System.Graphics;
 using System.Drawing;
+using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
+using Cosmos.HAL.Drivers.Audio;
+using Cosmos.System.Audio.IO;
+using Cosmos.System.Audio;
 
 
 namespace CosmosKernel1
@@ -74,6 +79,7 @@ namespace CosmosKernel1
 
         protected override void Run()
         {
+            CAI();
             int cursorY = 10;
             int initialCursorX = 10;
             int cursorX = initialCursorX;
@@ -81,11 +87,15 @@ namespace CosmosKernel1
             bool inputActive = true;
             bool exit = false;
 
+            DrawACSIIString(canvas, Color.White, "======================================", initialCursorX, cursorY, 2);
+            DrawACSIIString(canvas, Color.White, "                                  ", initialCursorX, cursorY += 16, 2);
+            DrawACSIIString(canvas, Color.White, "          GerardOS                ", initialCursorX, cursorY += 16, 3);
+            DrawACSIIString(canvas, Color.White, "                                  ", initialCursorX, cursorY += 16, 2);
+            DrawACSIIString(canvas, Color.White, "======================================", initialCursorX, cursorY += 16, 2);
+            canvas.Display();
+
             while (!exit)
             {
-                DrawACSIIString(canvas, Color.White, "Ingresa una comanda: ", initialCursorX, cursorY, 1);
-                canvas.Display();
-
                 while (inputActive)
                 {
                     var key = Console.ReadKey(intercept: true);
@@ -109,7 +119,8 @@ namespace CosmosKernel1
                     }
 
                     canvas.Clear(Color.Blue);
-                    DrawACSIIString(canvas, Color.White, "Ingresa una comanda: " + inputText, initialCursorX, cursorY, 1);
+                    cursorY = 10;
+                    DrawACSIIString(canvas, Color.White, "Ingresa una comanda: " + inputText, initialCursorX, cursorY+=32, 1);
                     canvas.Display();
                 }
 
@@ -121,7 +132,7 @@ namespace CosmosKernel1
                         ShowHelp(cursorX, cursorY + 16);
                         break;
                     case "about":
-                        Console.WriteLine("\nThis is a SO created and developed with Cosmos");
+                        DrawACSIIString(canvas, Color.White, "This is a SO created and developed with Cosmos ", initialCursorX, cursorY += 16, 1);
                         break;
                     case "apagar":
                         if (commandParts.Length > 1 && commandParts[1] == "-a")
@@ -139,104 +150,331 @@ namespace CosmosKernel1
 
                     case "espai":
                         var available_space = fs.GetAvailableFreeSpace(@"0:\");
-                        Console.WriteLine("Available Free Space: " + available_space);
+                        DrawACSIIString(canvas, Color.White, "Available Free Space: " + available_space, initialCursorX, cursorY += 16, 1);
                         break;
 
                     case "sysdisk":
                         var fs_type = fs.GetFileSystemType(@"0:\");
-                        Console.WriteLine("File System Type: " + fs_type);
+                        DrawACSIIString(canvas, Color.White, "File System Type: " + fs_type, initialCursorX, cursorY += 16, 1);
                         break;
 
                     case "files":
-                        Console.WriteLine("Introdueix nom del directori a mostrar el llistat dels seus fitxers: ");
-                        var dir = Console.ReadLine();
-                        var dir2 = @"0:\" + dir;
-                        var files_list = Directory.GetFiles(dir2);
+                        bool inputActive2 = true;
+                        string inputText2 = "";
+                        while (inputActive2)
+                        {
+                            DrawACSIIString(canvas, Color.White, "Introdueix nom del directori a mostrar el llistat dels seus fitxers: " + inputText2, initialCursorX, cursorY += 16, 1);
+                            canvas.Display();
+                            var key = Console.ReadKey(intercept: true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                inputActive2 = false;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace)
+                            {
+                                if (inputText2.Length > 0)
+                                {
+                                    inputText2 = inputText2.Substring(0, inputText2.Length - 1);
+                                    cursorX = initialCursorX + (inputText2.Length * 8);
+                                }
+                            }
+                            else
+                            {
+                                inputText2 += key.KeyChar;
+                                cursorX = initialCursorX + (inputText2.Length * 8);
+                            }
+                            canvas.Clear(Color.Blue);
+                            cursorY = 10;
+                            canvas.Display();
+                        }
+
+                        var dir = @"0:\" + inputText2;
+                        var files_list = Directory.GetFiles(dir);
+
                         foreach (var file in files_list)
                         {
-                            Console.WriteLine("Nom del fitxer: " + file);
+                            DrawACSIIString(canvas, Color.White, "Nom del fitxer: " + file, initialCursorX, cursorY += 16, 1);
                         }
                         break;
 
                     case "nfile":
-                        Console.WriteLine("Introdueix nom del nou fitxer: ");
-                        var nfile = Console.ReadLine();
-                        var filePath = @"0:\" + nfile;
+                        bool inputActive3 = true;
+                        string inputText3 = "";
+                        while (inputActive3)
+                        {
+                            DrawACSIIString(canvas, Color.White, "Introdueix nom del nou fitxer: " + inputText3, initialCursorX, cursorY += 16, 1);
+                            canvas.Display();
+                            var key = Console.ReadKey(intercept: true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                inputActive3 = false;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace)
+                            {
+                                if (inputText3.Length > 0)
+                                {
+                                    inputText3 = inputText3.Substring(0, inputText3.Length - 1);
+                                    cursorX = initialCursorX + (inputText3.Length * 8);
+                                }
+                            }
+                            else
+                            {
+                                inputText3 += key.KeyChar;
+                                cursorX = initialCursorX + (inputText3.Length * 8);
+                            }
+                            canvas.Clear(Color.Blue);
+                            cursorY = 10;
+                            canvas.Display();
+                        }
+
+                        var filePath = @"0:\" + inputText3;
                         try
                         {
                             var file_stream = File.Create(filePath);
-                            Console.WriteLine($"Fitxer '{nfile}' creat correctament.");
+                            DrawACSIIString(canvas, Color.White, $"Fitxer '{inputText3}' creat correctament.", initialCursorX, cursorY += 16, 1);
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine($"Fitxer '{e.Message}' creat correctament.");
+                            DrawACSIIString(canvas, Color.White, $"Error al crear el fitxer '{e.Message}'", initialCursorX, cursorY += 16, 1);
                         }
                         break;
 
                     case "ndir":
-                        Console.WriteLine("Introdueix nom del nou directori: ");
-                        var ndir = Console.ReadLine();
-                        var filePathdir = @"0:\" + ndir;
+                        bool inputActive4 = true;
+                        string inputText4 = "";
+                        while (inputActive4)
+                        {
+                            DrawACSIIString(canvas, Color.White, "Introdueix nom del nou directori: " + inputText4, initialCursorX, cursorY += 16, 1);
+                            canvas.Display();
+                            var key = Console.ReadKey(intercept: true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                inputActive4 = false;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace)
+                            {
+                                if (inputText4.Length > 0)
+                                {
+                                    inputText4 = inputText4.Substring(0, inputText4.Length - 1);
+                                    cursorX = initialCursorX + (inputText4.Length * 8);
+                                }
+                            }
+                            else
+                            {
+                                inputText4 += key.KeyChar;
+                                cursorX = initialCursorX + (inputText4.Length * 8);
+                            }
+                            canvas.Clear(Color.Blue);
+                            cursorY = 10;
+                            canvas.Display();
+                        }
+
+                        var filePathdir = @"0:\" + inputText4;
                         try
                         {
                             Directory.CreateDirectory(filePathdir);
-                            Console.WriteLine($"Directori '{ndir}' creat correctament.");
+                            DrawACSIIString(canvas, Color.White, $"Directori '{inputText4}' creat correctament.", initialCursorX, cursorY += 16, 1);
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine($"Error al crear el directori: {e.Message}");
+                            DrawACSIIString(canvas, Color.White, $"Error al crear el directori: {e.Message}", initialCursorX, cursorY += 16, 1);
                         }
                         break;
 
                     case "delfdir":
-                        Console.WriteLine("Vols borrar fitxer o directori (f-d): ");
-                        var option = Console.ReadLine();
-
-                        if (option == "f")
+                        bool inputActive5 = true;
+                        string inputText5 = "";
+                        while (inputActive5)
                         {
-                            Console.WriteLine("Escriu el nom del fitxer a borrar:");
-                            var fileToDelete = Console.ReadLine();
-                            var filePathdelete = @"0:\" + fileToDelete;
+                            DrawACSIIString(canvas, Color.White, "Vols borrar fitxer o directori (f-d): " + inputText5, initialCursorX, cursorY += 16, 1);
+                            canvas.Display();
+                            var key = Console.ReadKey(intercept: true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                inputActive5 = false;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace)
+                            {
+                                if (inputText5.Length > 0)
+                                {
+                                    inputText5 = inputText5.Substring(0, inputText5.Length - 1);
+                                    cursorX = initialCursorX + (inputText5.Length * 8);
+                                }
+                            }
+                            else
+                            {
+                                inputText5 += key.KeyChar;
+                                cursorX = initialCursorX + (inputText5.Length * 8);
+                            }
+                            canvas.Clear(Color.Blue);
+                            cursorY = 10;
+                            canvas.Display();
+                        }
+
+                        if (inputText5 == "f")
+                        {
+                            bool inputActiveFile = true;
+                            string inputTextFile = "";
+
+                            while (inputActiveFile)
+                            {
+                                DrawACSIIString(canvas, Color.White, "Escriu el nom del fitxer a borrar: " + inputTextFile, initialCursorX, cursorY += 16, 1);
+                                canvas.Display();
+                                var key = Console.ReadKey(intercept: true);
+
+                                if (key.Key == ConsoleKey.Enter)
+                                {
+                                    inputActiveFile = false;
+                                }
+                                else if (key.Key == ConsoleKey.Backspace)
+                                {
+                                    if (inputTextFile.Length > 0)
+                                    {
+                                        inputTextFile = inputTextFile.Substring(0, inputTextFile.Length - 1);
+                                        cursorX = initialCursorX + (inputTextFile.Length * 8);
+                                    }
+                                }
+                                else
+                                {
+                                    inputTextFile += key.KeyChar;
+                                    cursorX = initialCursorX + (inputTextFile.Length * 8);
+                                }
+                                canvas.Clear(Color.Blue);
+                                cursorY = 10;
+                                canvas.Display();
+                            }
+                            
+                            var filePathdelete = @"0:\" + inputTextFile;
                             try
                             {
                                 File.Delete(filePathdelete);
-                                Console.WriteLine($"Fitxer '{fileToDelete}' esborrat correctament.");
+                                DrawACSIIString(canvas, Color.White, $"Fitxer '{inputTextFile}' esborrat correctament.", initialCursorX, cursorY += 16, 1);
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine($"Error esborrant el fitxer: {e.Message}");
+                                DrawACSIIString(canvas, Color.White, $"Error esborrant el fitxer: {e.Message}", initialCursorX, cursorY += 16, 1);
                             }
                         }
-                        else if (option == "d")
+                        else if (inputText5 == "d")
                         {
-                            Console.WriteLine("Escriu el nom del directori a borrar:");
-                            var directoryToDelete = Console.ReadLine();
-                            var filePathdelete = @"0:\" + directoryToDelete;
+                            bool inputActiveDir = true;
+                            string inputTextDir = "";
+
+                            while (inputActiveDir)
+                            {
+                                DrawACSIIString(canvas, Color.White, "Escriu el nom del directori a borrar: " + inputTextDir, initialCursorX, cursorY += 16, 1);
+                                canvas.Display();
+                                var key = Console.ReadKey(intercept: true);
+
+                                if (key.Key == ConsoleKey.Enter)
+                                {
+                                    inputActiveDir = false;
+                                }
+                                else if (key.Key == ConsoleKey.Backspace)
+                                {
+                                    if (inputTextDir.Length > 0)
+                                    {
+                                        inputTextDir = inputTextDir.Substring(0, inputTextDir.Length - 1);
+                                        cursorX = initialCursorX + (inputTextDir.Length * 8);
+                                    }
+                                }
+                                else
+                                {
+                                    inputTextDir += key.KeyChar;
+                                    cursorX = initialCursorX + (inputTextDir.Length * 8);
+                                }
+                                canvas.Clear(Color.Blue);
+                                cursorY = 10;
+                                canvas.Display();
+                            }
+
+                            var dirPathdelete = @"0:\" + inputTextDir;
                             try
                             {
-                                Directory.Delete(filePathdelete);
-                                Console.WriteLine($"Directori '{directoryToDelete}' esborrat correctament.");
+                                Directory.Delete(dirPathdelete);
+                                DrawACSIIString(canvas, Color.White, $"Directori '{inputTextDir}' esborrat correctament.", initialCursorX, cursorY += 16, 1);
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine($"Error esborrant el directori: {e.Message}");
+                                DrawACSIIString(canvas, Color.White, $"Error esborrant el directori: {e.Message}", initialCursorX, cursorY += 16, 1);
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Opció no vàlida. Introdueix 'f' per fitxer o 'd' per directori.");
+                            DrawACSIIString(canvas, Color.White, "Opció no vàlida. Introdueix 'f' per fitxer o 'd' per directori.", initialCursorX, cursorY += 16, 1);
                         }
                         break;
 
                     case "wtofile":
-                        Console.WriteLine("Escriu el nom del fitxer a escriure:");
-                        var filew = Console.ReadLine();
-                        var filewrute = @"0:\" + filew;
-                        Console.WriteLine("Escriu el que vols escriure:");
-                        var contentw = Console.ReadLine();
+                        bool inputActive6 = true;
+                        string inputText6 = "";
+
+                        while (inputActive6)
+                        {
+                            DrawACSIIString(canvas, Color.White, "Escriu el nom del fitxer a escriure: " + inputText6, initialCursorX, cursorY += 16, 1);
+                            canvas.Display();
+                            var key = Console.ReadKey(intercept: true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                inputActive6 = false;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace)
+                            {
+                                if (inputText6.Length > 0)
+                                {
+                                    inputText6 = inputText6.Substring(0, inputText6.Length - 1);
+                                    cursorX = initialCursorX + (inputText6.Length * 8);
+                                }
+                            }
+                            else
+                            {
+                                inputText6 += key.KeyChar;
+                                cursorX = initialCursorX + (inputText6.Length * 8);
+                            }
+                            canvas.Clear(Color.Blue);
+                            cursorY = 10;
+                            canvas.Display();
+                        }
+                        
+                        var filewrute = @"0:\" + inputText6;
+                        bool inputTextActive = true;
+                        string inputContent = "";
+                        while (inputTextActive)
+                        {
+                            DrawACSIIString(canvas, Color.White, "Escriu el que vols escriure:" + inputContent, initialCursorX, cursorY += 16, 1);
+                            canvas.Display();
+                            var key = Console.ReadKey(intercept: true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                inputTextActive = false;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace)
+                            {
+                                if (inputContent.Length > 0)
+                                {
+                                    inputContent = inputContent.Substring(0, inputContent.Length - 1);
+                                    cursorX = initialCursorX + (inputContent.Length * 8);
+                                }
+                            }
+                            else
+                            {
+                                inputContent += key.KeyChar;
+                                cursorX = initialCursorX + (inputContent.Length * 8);
+                            }
+                            canvas.Clear(Color.Blue);
+                            cursorY = 10;
+                            canvas.Display();
+                        }
+
                         try
                         {
-                            File.WriteAllText(filewrute, contentw);
+                            File.WriteAllText(filewrute, inputContent);
                         }
                         catch (Exception e)
                         {
@@ -245,22 +483,108 @@ namespace CosmosKernel1
                         break;
 
                     case "mvfile":
-                        Console.WriteLine("Introdueix la ruta del fitxer a moure: ");
-                        var filemv = Console.ReadLine();
+                        bool inputActive7= true;
+                        string filemv = "";
+                        while (inputActive7)
+                        {
+                            DrawACSIIString(canvas, Color.White, "Introdueix la ruta del fitxer a moure: " + filemv, initialCursorX, cursorY += 16, 1);
+                            canvas.Display();
+                            var key = Console.ReadKey(intercept: true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                inputActive7 = false;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace)
+                            {
+                                if (filemv.Length > 0)
+                                {
+                                    filemv = filemv.Substring(0, filemv.Length - 1);
+                                    cursorX = initialCursorX + (filemv.Length * 8);
+                                }
+                            }
+                            else
+                            {
+                                filemv += key.KeyChar;
+                                cursorX = initialCursorX + (filemv.Length * 8);
+                            }
+                            canvas.Clear(Color.Blue);
+                            cursorY = 10;
+                            canvas.Display();
+                        }
+
                         var filemvrute = @"0:\" + filemv;
-                        Console.WriteLine("Introdueix la ruta final: ");
-                        var newpath = Console.ReadLine();
+
+                        bool inputActiveRuta = true;
+                        string newpath = "";
+
+                        while (inputActiveRuta)
+                        {
+                            DrawACSIIString(canvas, Color.White, "Introdueix la ruta final:  " + newpath, initialCursorX, cursorY += 16, 1);
+                            canvas.Display();
+                            var key = Console.ReadKey(intercept: true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                inputActiveRuta = false;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace)
+                            {
+                                if (newpath.Length > 0)
+                                {
+                                    newpath = newpath.Substring(0, newpath.Length - 1);
+                                    cursorX = initialCursorX + (newpath.Length * 8);
+                                }
+                            }
+                            else
+                            {
+                                newpath += key.KeyChar;
+                                cursorX = initialCursorX + (newpath.Length * 8);
+                            }
+                            canvas.Clear(Color.Blue);
+                            cursorY = 10;
+                            canvas.Display();
+                        }
+
                         var newpath2 = @"0:\" + newpath + @"\" + filemv;
                         MoveFile(filemvrute, newpath2);
                         break;
 
                     case "rfile":
-                        Console.WriteLine("Introdueix el nom del fitxer a llegir tot el seu contingut: ");
-                        var rfile = Console.ReadLine();
+                        bool inputActive8 = true;
+                        string rfile = "";
+
+                        while (inputActive8)
+                        {
+                            DrawACSIIString(canvas, Color.White, "Introdueix el nom del fitxer a llegir tot el seu contingut: " + rfile, initialCursorX, cursorY += 16, 1);
+                            canvas.Display();
+                            var key = Console.ReadKey(intercept: true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                inputActive8 = false;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace)
+                            {
+                                if (rfile.Length > 0)
+                                {
+                                    rfile = rfile.Substring(0, rfile.Length - 1);
+                                    cursorX = initialCursorX + (rfile.Length * 8);
+                                }
+                            }
+                            else
+                            {
+                                rfile += key.KeyChar;
+                                cursorX = initialCursorX + (rfile.Length * 8);
+                            }
+                            canvas.Clear(Color.Blue);
+                            cursorY = 10;
+                            canvas.Display();
+                        }
                         var readfile = @"0:\" + rfile;
                         try
                         {
-                            Console.WriteLine(File.ReadAllText(readfile));
+                            DrawACSIIString(canvas, Color.White, File.ReadAllText(readfile), initialCursorX, cursorY += 16, 1);
                         }
                         catch (Exception e)
                         {
@@ -269,20 +593,344 @@ namespace CosmosKernel1
                         break;
 
                     case "rbytesf":
-                        Console.WriteLine("Introdueix el nom del fitxer a llegir els seus bytes: ");
-                        var rbytesf = Console.ReadLine();
+                        bool inputActive9= true;
+                        string rbytesf = "";
+
+                        while (inputActive9)
+                        {
+                            DrawACSIIString(canvas, Color.White, "Introdueix el nom del fitxer a llegir els seus bytes: " + rbytesf, initialCursorX, cursorY += 16, 1);
+                            canvas.Display();
+                            var key = Console.ReadKey(intercept: true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                inputActive9 = false;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace)
+                            {
+                                if (rbytesf.Length > 0)
+                                {
+                                    rbytesf = rbytesf.Substring(0, rbytesf.Length - 1);
+                                    cursorX = initialCursorX + (rbytesf.Length * 8);
+                                }
+                            }
+                            else
+                            {
+                                rbytesf += key.KeyChar;
+                                cursorX = initialCursorX + (rbytesf.Length * 8);
+                            }
+                            canvas.Clear(Color.Blue);
+                            cursorY = 10;
+                            canvas.Display();
+                        }
+
                         var readfilebyte = @"0:\" + rbytesf;
                         try
                         {
-                            Console.WriteLine(File.ReadAllBytes(readfilebyte));
+                            var fileContent = File.ReadAllBytes(readfilebyte);
+                            var bits = BitConverter.ToString(fileContent).Replace("-", "");
+                            DrawACSIIString(canvas, Color.White, bits, initialCursorX, cursorY += 16, 1);
                         }
                         catch (Exception e)
                         {
                             Console.WriteLine(e.ToString());
                         }
                         break;
+
+                    case "opMat":
+                        bool inputActive10= true;
+                        string operacio = "";
+
+                        while (inputActive10)
+                        {
+                            DrawACSIIString(canvas, Color.White, "Introdueix el signe de operacio que vols escollir: " + operacio, initialCursorX, cursorY += 16, 1);
+                            canvas.Display();
+                            var key = Console.ReadKey(intercept: true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                inputActive10 = false;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace)
+                            {
+                                if (operacio.Length > 0)
+                                {
+                                    operacio = operacio.Substring(0, operacio.Length - 1);
+                                    cursorX = initialCursorX + (operacio.Length * 8);
+                                }
+                            }
+                            else
+                            {
+                                operacio += key.KeyChar;
+                                cursorX = initialCursorX + (operacio.Length * 8);
+                            }
+                            canvas.Clear(Color.Blue);
+                            cursorY = 10;
+                            canvas.Display();
+                        }
+
+                        switch (operacio)
+                        {
+                            case "x":
+                                bool inputActiveMultiplicacio = true;
+                                string numMult = "";
+                                string numMult2 = "";
+                                var count = 0;
+                                while (inputActiveMultiplicacio)
+                                {
+                                    if (count==0)
+                                    {
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el primer numero: " + numMult, initialCursorX, cursorY += 16, 1);
+                                        canvas.Display();
+                                    } else if (count>0)
+                                    {
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el segon numero: " + numMult2, initialCursorX, cursorY += 16, 1);
+                                        canvas.Display();
+                                    }
+                                    var key = Console.ReadKey(intercept: true);
+
+                                    if (key.Key == ConsoleKey.Enter)
+                                    {
+                                        count++;
+                                        if (count>1) {
+                                            inputActiveMultiplicacio = false;
+                                        }
+                                    }
+                                    else if (key.Key == ConsoleKey.Backspace)
+                                    {
+                                        if (count == 0 && numMult.Length > 0)
+                                        {
+                                            numMult = numMult.Substring(0, numMult.Length - 1);
+                                            cursorX = initialCursorX + (numMult.Length * 8);
+                                        }
+
+                                        if (count > 0 && numMult2.Length > 0)
+                                        {
+                                            numMult2 = numMult2.Substring(0, numMult2.Length - 1);
+                                            cursorX = initialCursorX + (numMult2.Length * 8);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (count == 0)
+                                        {
+                                            numMult += key.KeyChar;
+                                            cursorX = initialCursorX + (numMult.Length * 8);
+                                        } else if (count>0)
+                                        {
+                                            numMult2 += key.KeyChar;
+                                            cursorX = initialCursorX + (numMult2.Length * 8);
+                                        }
+                                    }
+                                    canvas.Clear(Color.Blue);
+                                    cursorY = 10;
+                                    canvas.Display();
+                                }
+
+                                var res = int.Parse(numMult);
+                                var res2 = int.Parse(numMult2);
+                                var resF = res * res2;
+                                DrawACSIIString(canvas, Color.White, "El resultat és: " + resF, initialCursorX, cursorY += 16, 1);
+                                break;
+                            
+                            case "+":
+                                bool inputActiveSuma = true;
+                                string numSum = "";
+                                string numSum2 = "";
+                                var count2 = 0;
+                                while (inputActiveSuma)
+                                {
+                                    if (count2 == 0)
+                                    {
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el primer numero: " + numSum, initialCursorX, cursorY += 16, 1);
+                                        canvas.Display();
+                                    }
+                                    else if (count2 > 0)
+                                    {
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el segon numero: " + numSum2, initialCursorX, cursorY += 16, 1);
+                                        canvas.Display();
+                                    }
+                                    var key = Console.ReadKey(intercept: true);
+
+                                    if (key.Key == ConsoleKey.Enter)
+                                    {
+                                        count2++;
+                                        if (count2 > 1)
+                                        {
+                                            inputActiveSuma = false;
+                                        }
+                                    }
+                                    else if (key.Key == ConsoleKey.Backspace)
+                                    {
+                                        if (count2 == 0 && numSum.Length > 0)
+                                        {
+                                            numSum = numSum.Substring(0, numSum.Length - 1);
+                                            cursorX = initialCursorX + (numSum.Length * 8);
+                                        }
+
+                                        if (count2 > 0 && numSum2.Length > 0)
+                                        {
+                                            numSum2 = numSum2.Substring(0, numSum2.Length - 1);
+                                            cursorX = initialCursorX + (numSum2.Length * 8);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (count2 == 0)
+                                        {
+                                            numSum += key.KeyChar;
+                                            cursorX = initialCursorX + (numSum.Length * 8);
+                                        }
+                                        else if (count2 > 0)
+                                        {
+                                            numSum2 += key.KeyChar;
+                                            cursorX = initialCursorX + (numSum2.Length * 8);
+                                        }
+                                    }
+                                    canvas.Clear(Color.Blue);
+                                    cursorY = 10;
+                                    canvas.Display();
+                                }
+
+                                var resSum = int.Parse(numSum);
+                                var resSum2 = int.Parse(numSum2);
+                                var resSumF = resSum + resSum2;
+                                DrawACSIIString(canvas, Color.White, "El resultat és: " + resSumF, initialCursorX, cursorY += 16, 1);
+                                break;
+
+                            case "-":
+                                bool inputActiveRes = true;
+                                string numRes = "";
+                                string numRes2 = "";
+                                var count3 = 0;
+                                while (inputActiveRes)
+                                {
+                                    if (count3 == 0)
+                                    {
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el primer numero: " + numRes, initialCursorX, cursorY += 16, 1);
+                                        canvas.Display();
+                                    }
+                                    else if (count3 > 0)
+                                    {
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el segon numero: " + numRes2, initialCursorX, cursorY += 16, 1);
+                                        canvas.Display();
+                                    }
+                                    var key = Console.ReadKey(intercept: true);
+
+                                    if (key.Key == ConsoleKey.Enter)
+                                    {
+                                        count3++;
+                                        if (count3 > 1)
+                                        {
+                                            inputActiveRes = false;
+                                        }
+                                    }
+                                    else if (key.Key == ConsoleKey.Backspace)
+                                    {
+                                        if (count3 == 0 && numRes.Length > 0)
+                                        {
+                                            numRes = numRes.Substring(0, numRes.Length - 1);
+                                            cursorX = initialCursorX + (numRes.Length * 8);
+                                        }
+
+                                        if (count3 > 0 && numRes2.Length > 0)
+                                        {
+                                            numRes2 = numRes2.Substring(0, numRes2.Length - 1);
+                                            cursorX = initialCursorX + (numRes2.Length * 8);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (count3 == 0)
+                                        {
+                                            numRes += key.KeyChar;
+                                            cursorX = initialCursorX + (numRes.Length * 8);
+                                        }
+                                        else if (count3 > 0)
+                                        {
+                                            numRes2 += key.KeyChar;
+                                            cursorX = initialCursorX + (numRes2.Length * 8);
+                                        }
+                                    }
+                                    canvas.Clear(Color.Blue);
+                                    cursorY = 10;
+                                    canvas.Display();
+                                }
+
+                                var resRes= int.Parse(numRes);
+                                var resRes2 = int.Parse(numRes2);
+                                var resResRes= resRes - resRes2;
+                                DrawACSIIString(canvas, Color.White, "El resultat és: " + resResRes, initialCursorX, cursorY += 16, 1);
+                                break;
+
+                            case "/":
+                                bool inputActiveDiv = true;
+                                string numDiv = "";
+                                string numDiv2 = "";
+                                var count4= 0;
+                                while (inputActiveDiv)
+                                {
+                                    if (count4 == 0)
+                                    {
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el primer numero: " + numDiv, initialCursorX, cursorY += 16, 1);
+                                        canvas.Display();
+                                    }
+                                    else if (count4 > 0)
+                                    {
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el segon numero: " + numDiv2, initialCursorX, cursorY += 16, 1);
+                                        canvas.Display();
+                                    }
+                                    var key = Console.ReadKey(intercept: true);
+
+                                    if (key.Key == ConsoleKey.Enter)
+                                    {
+                                        count4++;
+                                        if (count4 > 1)
+                                        {
+                                            inputActiveDiv = false;
+                                        }
+                                    }
+                                    else if (key.Key == ConsoleKey.Backspace)
+                                    {
+                                        if (count4 == 0 && numDiv.Length > 0)
+                                        {
+                                            numDiv = numDiv.Substring(0, numDiv.Length - 1);
+                                            cursorX = initialCursorX + (numDiv.Length * 8);
+                                        }
+
+                                        if (count4 > 0 && numDiv2.Length > 0)
+                                        {
+                                            numDiv2 = numDiv2.Substring(0, numDiv2.Length - 1);
+                                            cursorX = initialCursorX + (numDiv2.Length * 8);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (count4 == 0)
+                                        {
+                                            numDiv += key.KeyChar;
+                                            cursorX = initialCursorX + (numDiv.Length * 8);
+                                        }
+                                        else if (count4 > 0)
+                                        {
+                                            numDiv2 += key.KeyChar;
+                                            cursorX = initialCursorX + (numDiv2.Length * 8);
+                                        }
+                                    }
+                                    canvas.Clear(Color.Blue);
+                                    cursorY = 10;
+                                    canvas.Display();
+                                }
+
+                                var resDiv= int.Parse(numDiv);
+                                var resDiv2= int.Parse(numDiv2);
+                                var resResDiv = resDiv / resDiv2;
+                                DrawACSIIString(canvas, Color.White, "El resultat és: " + resResDiv, initialCursorX, cursorY += 16, 1);
+                                break;
+                        }
+                        break;
                     default:
-                        Console.WriteLine("\nComanda no trobada. Escriu 'help' per veure totes les comandes.");
+                        DrawACSIIString(canvas, Color.White, "Comanda no trobada. Escriu 'help' per veure totes les comandes.", initialCursorX, cursorY += 16, 1);
                         break;
                 }
 
@@ -291,6 +939,21 @@ namespace CosmosKernel1
                 cursorX = initialCursorX;
                 canvas.Display();
             }
+        }
+
+        private void CAI()
+        {
+            var mixer = new AudioMixer();
+            var audioStream = MemoryAudioStream.FromWave("beep-125033.mp3");
+            var driver = AC97.Initialize(bufferSize: 4096);
+            mixer.Streams.Add(audioStream);
+
+            var audioManager = new AudioManager()
+            {
+                Stream = mixer,
+                Output = driver
+            };
+            audioManager.Enable();
         }
 
 
