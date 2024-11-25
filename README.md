@@ -26,19 +26,15 @@ https://cosmosos.github.io/articles/Installation/DevKit.html
 
 ### Comandes a crear 📌 
 ```
--delete -u <name>: espeficica el usuari a borrar
 -netejar: borra la pantalla
 -llistam: llista els subdirectoris
--choose -u <user>: cambiar d'usuari
 -apagar -a: apagar el SO
 -cambiarDir <dir>: permet moure't de directori
 -mostra <fitxer>: funció per mostrar el contingut d'un fitxer
--superUser: funció per tindre permisos d'administrador i estar en super usuari
 -crea <fitxer>: funció per crear un fitxer
 -help: apartat d'ajuda
 -about: informació sobre l'OS
 -reinicia: reinicia el sistema
--crear -u:  crea un usuari
 -espai: mira el espai del sistema
 -sysdisk: Mira el sistema d'arxius
 -files: Mostra el llistat dels fitxers del directori
@@ -48,6 +44,5 @@ https://cosmosos.github.io/articles/Installation/DevKit.html
 -wtofile: Escriu al fitxer un contingut
 -mvfile: Mou un fitxer de ruta
 -rfile: Llegeix el contingut del fitxer
--rbytesf: Llegeix els bytes del fitxer
 -rbytesf: Llegeix els bytes del fitxer
 ```
