@@ -10,6 +10,9 @@ using System.Diagnostics;
 using Cosmos.HAL.Drivers.Audio;
 using Cosmos.System.Audio.IO;
 using Cosmos.System.Audio;
+using IL2CPU.API.Attribs;
+using System.Security.Cryptography.X509Certificates;
+using Cosmos.HAL.Audio;
 
 
 namespace CosmosKernel1
@@ -66,26 +69,36 @@ namespace CosmosKernel1
                     0, 255, 243, 255, 0, 255, 243, 255, 0, 255, 243, 255, 0, 255, 243, 255, 0, 255, 243, 255, 0, 255, 243, 255, 0, 255, 243, 255, }, ColorDepth.ColorDepth32);
 
         Sys.FileSystem.CosmosVFS fs = new Cosmos.System.FileSystem.CosmosVFS();
+        [ManifestResourceStream(ResourceName = "CosmosKernel1.walking_polar_bear.wav")] public static byte[] music;
         protected override void BeforeRun()
         {
             Sys.FileSystem.VFS.VFSManager.RegisterVFS(fs);
             Sys.KeyboardManager.SetKeyLayout(new Sys.ScanMaps.ESStandardLayout());
             Console.WriteLine("Cosmos booted successfully. Let's go in Graphical Mode");
-
+           
+            var mixer = new AudioMixer();
+            var audioStream = new MemoryAudioStream(new Cosmos.HAL.Audio.SampleFormat(AudioBitDepth.Bits16, 2, true), 48000, music);
+            var driver = AC97.Initialize(bufferSize: 4096);
+            mixer.Streams.Add(audioStream);
+            var audioManager = new AudioManager()
+            {
+                Stream = mixer,
+                Output = driver
+            };
+            audioManager.Enable();
             canvas = FullScreenCanvas.GetFullScreenCanvas(new Mode(640, 480, ColorDepth.ColorDepth32));
-
             canvas.Clear(Color.Blue);
         }
 
         protected override void Run()
         {
-            CAI();
             int cursorY = 10;
             int initialCursorX = 10;
             int cursorX = initialCursorX;
             string inputText = "";
             bool inputActive = true;
             bool exit = false;
+            string currentDirectory = @"0:\";
 
             DrawACSIIString(canvas, Color.White, "======================================", initialCursorX, cursorY, 2);
             DrawACSIIString(canvas, Color.White, "                                  ", initialCursorX, cursorY += 16, 2);
@@ -148,6 +161,30 @@ namespace CosmosKernel1
                     case "crear":
                         break;
 
+                    case "llistam":
+                        if (Directory.Exists(currentDirectory))
+                        {
+                            DrawACSIIString(canvas, Color.Green, "Directori actual: " + currentDirectory, initialCursorX, cursorY += 16, 1);
+
+                            var directoryList = Directory.GetDirectories(currentDirectory);
+
+                            if (directoryList.Length > 0)
+                            {
+                                foreach (var directory in directoryList)
+                                {
+                                    DrawACSIIString(canvas, Color.White, directory, initialCursorX, cursorY += 16, 1);
+                                }
+                            }
+                            else
+                            {
+                                DrawACSIIString(canvas, Color.Yellow, "No hi ha subdirectoris en aquest directori.", initialCursorX, cursorY += 16, 1);
+                            }
+                        }
+                        else
+                        {
+                            DrawACSIIString(canvas, Color.Red, "Error: Directori actual no trobat.", initialCursorX, cursorY += 16, 1);
+                        }
+                        break;
                     case "espai":
                         var available_space = fs.GetAvailableFreeSpace(@"0:\");
                         DrawACSIIString(canvas, Color.White, "Available Free Space: " + available_space, initialCursorX, cursorY += 16, 1);
@@ -284,6 +321,52 @@ namespace CosmosKernel1
                         }
                         break;
 
+                    case "cambiarDir": 
+                        bool inputactiveCD = true;
+                        string newDirectory = "";
+
+                        while (inputactiveCD)
+                        {
+                            DrawACSIIString(canvas, Color.White, "Introdueix nom del directori: " + newDirectory, initialCursorX, cursorY += 16, 1);
+                            canvas.Display();
+
+                            var key = Console.ReadKey(intercept: true);
+
+                            if (key.Key == ConsoleKey.Enter)
+                            {
+                                inputactiveCD = false;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace)
+                            {
+                                if (newDirectory.Length > 0)
+                                {
+                                    newDirectory = newDirectory.Substring(0, newDirectory.Length - 1);
+                                    cursorX = initialCursorX + (newDirectory.Length * 8);
+                                }
+                            }
+                            else
+                            {
+                                newDirectory += key.KeyChar;
+                                cursorX = initialCursorX + (newDirectory.Length * 8);
+                            }
+
+                            canvas.Clear(Color.Blue);
+                            cursorY = 10;
+                            canvas.Display();
+                        }
+
+                        string potentialPath = Path.Combine(currentDirectory, newDirectory);
+
+                        if (Directory.Exists(potentialPath))
+                        {
+                            currentDirectory = potentialPath;
+                            DrawACSIIString(canvas, Color.Green, "Canviat al directori: " + currentDirectory, initialCursorX, cursorY += 16, 1);
+                        }
+                        else
+                        {
+                            DrawACSIIString(canvas, Color.Red, "Error: Directori no trobat.", initialCursorX, cursorY += 16, 1);
+                        }
+                        break;
                     case "delfdir":
                         bool inputActive5 = true;
                         string inputText5 = "";
@@ -929,6 +1012,11 @@ namespace CosmosKernel1
                                 break;
                         }
                         break;
+
+                    case "netejar":
+                        canvas.Clear(Color.Blue);
+                        break;
+
                     default:
                         DrawACSIIString(canvas, Color.White, "Comanda no trobada. Escriu 'help' per veure totes les comandes.", initialCursorX, cursorY += 16, 1);
                         break;
@@ -940,22 +1028,6 @@ namespace CosmosKernel1
                 canvas.Display();
             }
         }
-
-        private void CAI()
-        {
-            var mixer = new AudioMixer();
-            var audioStream = MemoryAudioStream.FromWave("beep-125033.mp3");
-            var driver = AC97.Initialize(bufferSize: 4096);
-            mixer.Streams.Add(audioStream);
-
-            var audioManager = new AudioManager()
-            {
-                Stream = mixer,
-                Output = driver
-            };
-            audioManager.Enable();
-        }
-
 
         public static void MoveFile(string file, string newpath)
         {
@@ -974,15 +1046,11 @@ namespace CosmosKernel1
         {
             try
             {
-                DrawACSIIString(canvas, Color.White, "delete -u <nombre>: borra el usuari", cursorX, cursorY += 16, 1);
                 DrawACSIIString(canvas, Color.White, "netejar: neteja la pantalla", cursorX, cursorY += 16, 1);
                 DrawACSIIString(canvas, Color.White, "llistam: llista els subdirectoris", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "choose -u <usuario>: cambiar de usuari", cursorX, cursorY += 16, 1);
                 DrawACSIIString(canvas, Color.White, "apagar -a: apagar el SO", cursorX, cursorY += 16, 1);
                 DrawACSIIString(canvas, Color.White, "cambiarDir <dir>: et permet cambiar de directori", cursorX, cursorY += 16, 1);
                 DrawACSIIString(canvas, Color.White, "mostra <fitxer>: funció per mostar el contingut de un arxiu", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "superUser: funció per tenir permisos de administrador i estar en super usuari", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "crea -u <nombre>: funció per a crear un usuari", cursorX, cursorY += 16, 1);
                 DrawACSIIString(canvas, Color.White, "about: informació sobre el SO", cursorX, cursorY += 16, 1);
                 DrawACSIIString(canvas, Color.White, "reinicia: reinicia el sistema", cursorX, cursorY += 16, 1);
                 DrawACSIIString(canvas, Color.White, "espai: mira el espai del sistema", cursorX, cursorY += 16, 1);

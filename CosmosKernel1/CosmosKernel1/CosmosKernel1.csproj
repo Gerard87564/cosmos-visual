@@ -13,11 +13,22 @@
         <StartCosmosGDB>False</StartCosmosGDB>
         <VisualStudioDebugPort>Pipe: Cosmos\Serial</VisualStudioDebugPort>
         <CosmosDebugPort>Serial: COM1</CosmosDebugPort>
-        <Launch>VMware</Launch>
+        <Launch>ISO</Launch>
         <Profile>VMware</Profile>
         <Description>Use VMware Player or Workstation to deploy and debug.</Description>
         <PxeInterface>192.168.0.8</PxeInterface>
+        <DebugEnabled>False</DebugEnabled>
+        <CompressionType>Gzip</CompressionType>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="Beep_Sound_Effect.wav" />
+      <None Remove="walking_polar_bear.wav" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="walking_polar_bear.wav" />
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Cosmos.Build" Version="0-*" NoWarn="NU1604" />
