@@ -24,7 +24,7 @@ Per al Dev Kit l'instal.lació es una mica més complexa, recomano mirar el seg�
 https://cosmosos.github.io/articles/Installation/DevKit.html
 ```
 
-### Comandes a crear 📌 
+### Comandes 📌 
 ```
 -netejar: borra la pantalla
 -llistam: llista els subdirectoris
