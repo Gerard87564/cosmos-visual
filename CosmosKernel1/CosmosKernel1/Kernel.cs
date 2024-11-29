@@ -86,7 +86,7 @@ namespace CosmosKernel1
                 Output = driver
             };
             audioManager.Enable();
-            canvas = FullScreenCanvas.GetFullScreenCanvas(new Mode(640, 480, ColorDepth.ColorDepth32));
+            canvas = FullScreenCanvas.GetFullScreenCanvas(new Mode(1920, 1080, ColorDepth.ColorDepth32));
             canvas.Clear(Color.Blue);
         }
 
@@ -100,11 +100,11 @@ namespace CosmosKernel1
             bool exit = false;
             string currentDirectory = @"0:\";
 
-            DrawACSIIString(canvas, Color.White, "======================================", initialCursorX, cursorY, 2);
-            DrawACSIIString(canvas, Color.White, "                                  ", initialCursorX, cursorY += 16, 2);
-            DrawACSIIString(canvas, Color.White, "          GerardOS                ", initialCursorX, cursorY += 16, 3);
-            DrawACSIIString(canvas, Color.White, "                                  ", initialCursorX, cursorY += 16, 2);
-            DrawACSIIString(canvas, Color.White, "======================================", initialCursorX, cursorY += 16, 2);
+            DrawACSIIString(canvas, Color.White, "======================================", initialCursorX, cursorY, 3);
+            DrawACSIIString(canvas, Color.White, "                                  ", initialCursorX, cursorY += 32, 3);
+            DrawACSIIString(canvas, Color.White, "          GerardOS                ", initialCursorX, cursorY += 32, 4);
+            DrawACSIIString(canvas, Color.White, "                                  ", initialCursorX, cursorY += 32, 3);
+            DrawACSIIString(canvas, Color.White, "======================================", initialCursorX, cursorY += 32, 3);
             canvas.Display();
 
             while (!exit)
@@ -133,7 +133,7 @@ namespace CosmosKernel1
 
                     canvas.Clear(Color.Blue);
                     cursorY = 10;
-                    DrawACSIIString(canvas, Color.White, "Ingresa una comanda: " + inputText, initialCursorX, cursorY+=32, 1);
+                    DrawACSIIString(canvas, Color.White, "Ingresa una comanda: " + inputText, initialCursorX, cursorY+=32, 2);
                     canvas.Display();
                 }
 
@@ -145,7 +145,7 @@ namespace CosmosKernel1
                         ShowHelp(cursorX, cursorY + 16);
                         break;
                     case "about":
-                        DrawACSIIString(canvas, Color.White, "This is a SO created and developed with Cosmos ", initialCursorX, cursorY += 16, 1);
+                        DrawACSIIString(canvas, Color.White, "This is a SO created and developed with Cosmos ", initialCursorX, cursorY += 32, 2);
                         break;
                     case "apagar":
                         if (commandParts.Length > 1 && commandParts[1] == "-a")
@@ -164,7 +164,7 @@ namespace CosmosKernel1
                     case "llistam":
                         if (Directory.Exists(currentDirectory))
                         {
-                            DrawACSIIString(canvas, Color.Green, "Directori actual: " + currentDirectory, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.Green, "Directori actual: " + currentDirectory, initialCursorX, cursorY += 32, 2);
 
                             var directoryList = Directory.GetDirectories(currentDirectory);
 
@@ -172,27 +172,27 @@ namespace CosmosKernel1
                             {
                                 foreach (var directory in directoryList)
                                 {
-                                    DrawACSIIString(canvas, Color.White, directory, initialCursorX, cursorY += 16, 1);
+                                    DrawACSIIString(canvas, Color.White, directory, initialCursorX, cursorY += 32, 2);
                                 }
                             }
                             else
                             {
-                                DrawACSIIString(canvas, Color.Yellow, "No hi ha subdirectoris en aquest directori.", initialCursorX, cursorY += 16, 1);
+                                DrawACSIIString(canvas, Color.Yellow, "No hi ha subdirectoris en aquest directori.", initialCursorX, cursorY += 32, 2);
                             }
                         }
                         else
                         {
-                            DrawACSIIString(canvas, Color.Red, "Error: Directori actual no trobat.", initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.Red, "Error: Directori actual no trobat.", initialCursorX, cursorY += 32, 2);
                         }
                         break;
                     case "espai":
                         var available_space = fs.GetAvailableFreeSpace(@"0:\");
-                        DrawACSIIString(canvas, Color.White, "Available Free Space: " + available_space, initialCursorX, cursorY += 16, 1);
+                        DrawACSIIString(canvas, Color.White, "Available Free Space: " + available_space, initialCursorX, cursorY += 32, 2);
                         break;
 
                     case "sysdisk":
                         var fs_type = fs.GetFileSystemType(@"0:\");
-                        DrawACSIIString(canvas, Color.White, "File System Type: " + fs_type, initialCursorX, cursorY += 16, 1);
+                        DrawACSIIString(canvas, Color.White, "File System Type: " + fs_type, initialCursorX, cursorY += 32, 2);
                         break;
 
                     case "files":
@@ -200,7 +200,7 @@ namespace CosmosKernel1
                         string inputText2 = "";
                         while (inputActive2)
                         {
-                            DrawACSIIString(canvas, Color.White, "Introdueix nom del directori a mostrar el llistat dels seus fitxers: " + inputText2, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Introdueix nom del directori a mostrar el llistat dels seus fitxers: " + inputText2, initialCursorX, cursorY += 32, 2);
                             canvas.Display();
                             var key = Console.ReadKey(intercept: true);
 
@@ -231,7 +231,7 @@ namespace CosmosKernel1
 
                         foreach (var file in files_list)
                         {
-                            DrawACSIIString(canvas, Color.White, "Nom del fitxer: " + file, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Nom del fitxer: " + file, initialCursorX, cursorY += 32, 2);
                         }
                         break;
 
@@ -240,7 +240,7 @@ namespace CosmosKernel1
                         string inputText3 = "";
                         while (inputActive3)
                         {
-                            DrawACSIIString(canvas, Color.White, "Introdueix nom del nou fitxer: " + inputText3, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Introdueix nom del nou fitxer: " + inputText3, initialCursorX, cursorY += 32, 2);
                             canvas.Display();
                             var key = Console.ReadKey(intercept: true);
 
@@ -270,11 +270,11 @@ namespace CosmosKernel1
                         try
                         {
                             var file_stream = File.Create(filePath);
-                            DrawACSIIString(canvas, Color.White, $"Fitxer '{inputText3}' creat correctament.", initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, $"Fitxer '{inputText3}' creat correctament.", initialCursorX, cursorY += 32, 2);
                         }
                         catch (Exception e)
                         {
-                            DrawACSIIString(canvas, Color.White, $"Error al crear el fitxer '{e.Message}'", initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, $"Error al crear el fitxer '{e.Message}'", initialCursorX, cursorY += 32, 2);
                         }
                         break;
 
@@ -283,7 +283,7 @@ namespace CosmosKernel1
                         string inputText4 = "";
                         while (inputActive4)
                         {
-                            DrawACSIIString(canvas, Color.White, "Introdueix nom del nou directori: " + inputText4, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Introdueix nom del nou directori: " + inputText4, initialCursorX, cursorY += 32, 2);
                             canvas.Display();
                             var key = Console.ReadKey(intercept: true);
 
@@ -313,11 +313,11 @@ namespace CosmosKernel1
                         try
                         {
                             Directory.CreateDirectory(filePathdir);
-                            DrawACSIIString(canvas, Color.White, $"Directori '{inputText4}' creat correctament.", initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, $"Directori '{inputText4}' creat correctament.", initialCursorX, cursorY += 32, 2);
                         }
                         catch (Exception e)
                         {
-                            DrawACSIIString(canvas, Color.White, $"Error al crear el directori: {e.Message}", initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, $"Error al crear el directori: {e.Message}", initialCursorX, cursorY += 32, 2);
                         }
                         break;
 
@@ -327,7 +327,7 @@ namespace CosmosKernel1
 
                         while (inputactiveCD)
                         {
-                            DrawACSIIString(canvas, Color.White, "Introdueix nom del directori: " + newDirectory, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Introdueix nom del directori: " + newDirectory, initialCursorX, cursorY += 32, 2);
                             canvas.Display();
 
                             var key = Console.ReadKey(intercept: true);
@@ -360,11 +360,11 @@ namespace CosmosKernel1
                         if (Directory.Exists(potentialPath))
                         {
                             currentDirectory = potentialPath;
-                            DrawACSIIString(canvas, Color.Green, "Canviat al directori: " + currentDirectory, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.Green, "Canviat al directori: " + currentDirectory, initialCursorX, cursorY += 32, 2);
                         }
                         else
                         {
-                            DrawACSIIString(canvas, Color.Red, "Error: Directori no trobat.", initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.Red, "Error: Directori no trobat.", initialCursorX, cursorY += 32, 2);
                         }
                         break;
                     case "delfdir":
@@ -372,7 +372,7 @@ namespace CosmosKernel1
                         string inputText5 = "";
                         while (inputActive5)
                         {
-                            DrawACSIIString(canvas, Color.White, "Vols borrar fitxer o directori (f-d): " + inputText5, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Vols borrar fitxer o directori (f-d): " + inputText5, initialCursorX, cursorY += 32, 2);
                             canvas.Display();
                             var key = Console.ReadKey(intercept: true);
 
@@ -405,7 +405,7 @@ namespace CosmosKernel1
 
                             while (inputActiveFile)
                             {
-                                DrawACSIIString(canvas, Color.White, "Escriu el nom del fitxer a borrar: " + inputTextFile, initialCursorX, cursorY += 16, 1);
+                                DrawACSIIString(canvas, Color.White, "Escriu el nom del fitxer a borrar: " + inputTextFile, initialCursorX, cursorY += 32, 2);
                                 canvas.Display();
                                 var key = Console.ReadKey(intercept: true);
 
@@ -435,11 +435,11 @@ namespace CosmosKernel1
                             try
                             {
                                 File.Delete(filePathdelete);
-                                DrawACSIIString(canvas, Color.White, $"Fitxer '{inputTextFile}' esborrat correctament.", initialCursorX, cursorY += 16, 1);
+                                DrawACSIIString(canvas, Color.White, $"Fitxer '{inputTextFile}' esborrat correctament.", initialCursorX, cursorY += 32, 2);
                             }
                             catch (Exception e)
                             {
-                                DrawACSIIString(canvas, Color.White, $"Error esborrant el fitxer: {e.Message}", initialCursorX, cursorY += 16, 1);
+                                DrawACSIIString(canvas, Color.White, $"Error esborrant el fitxer: {e.Message}", initialCursorX, cursorY += 32, 2);
                             }
                         }
                         else if (inputText5 == "d")
@@ -449,7 +449,7 @@ namespace CosmosKernel1
 
                             while (inputActiveDir)
                             {
-                                DrawACSIIString(canvas, Color.White, "Escriu el nom del directori a borrar: " + inputTextDir, initialCursorX, cursorY += 16, 1);
+                                DrawACSIIString(canvas, Color.White, "Escriu el nom del directori a borrar: " + inputTextDir, initialCursorX, cursorY += 32, 2);
                                 canvas.Display();
                                 var key = Console.ReadKey(intercept: true);
 
@@ -479,16 +479,16 @@ namespace CosmosKernel1
                             try
                             {
                                 Directory.Delete(dirPathdelete);
-                                DrawACSIIString(canvas, Color.White, $"Directori '{inputTextDir}' esborrat correctament.", initialCursorX, cursorY += 16, 1);
+                                DrawACSIIString(canvas, Color.White, $"Directori '{inputTextDir}' esborrat correctament.", initialCursorX, cursorY += 32, 2);
                             }
                             catch (Exception e)
                             {
-                                DrawACSIIString(canvas, Color.White, $"Error esborrant el directori: {e.Message}", initialCursorX, cursorY += 16, 1);
+                                DrawACSIIString(canvas, Color.White, $"Error esborrant el directori: {e.Message}", initialCursorX, cursorY += 32, 2);
                             }
                         }
                         else
                         {
-                            DrawACSIIString(canvas, Color.White, "Opció no vàlida. Introdueix 'f' per fitxer o 'd' per directori.", initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Opció no vàlida. Introdueix 'f' per fitxer o 'd' per directori.", initialCursorX, cursorY += 32, 2);
                         }
                         break;
 
@@ -498,7 +498,7 @@ namespace CosmosKernel1
 
                         while (inputActive6)
                         {
-                            DrawACSIIString(canvas, Color.White, "Escriu el nom del fitxer a escriure: " + inputText6, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Escriu el nom del fitxer a escriure: " + inputText6, initialCursorX, cursorY += 32, 2);
                             canvas.Display();
                             var key = Console.ReadKey(intercept: true);
 
@@ -529,7 +529,7 @@ namespace CosmosKernel1
                         string inputContent = "";
                         while (inputTextActive)
                         {
-                            DrawACSIIString(canvas, Color.White, "Escriu el que vols escriure:" + inputContent, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Escriu el que vols escriure:" + inputContent, initialCursorX, cursorY += 32, 2);
                             canvas.Display();
                             var key = Console.ReadKey(intercept: true);
 
@@ -570,7 +570,7 @@ namespace CosmosKernel1
                         string filemv = "";
                         while (inputActive7)
                         {
-                            DrawACSIIString(canvas, Color.White, "Introdueix la ruta del fitxer a moure: " + filemv, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Introdueix la ruta del fitxer a moure: " + filemv, initialCursorX, cursorY += 32, 2);
                             canvas.Display();
                             var key = Console.ReadKey(intercept: true);
 
@@ -603,7 +603,7 @@ namespace CosmosKernel1
 
                         while (inputActiveRuta)
                         {
-                            DrawACSIIString(canvas, Color.White, "Introdueix la ruta final:  " + newpath, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Introdueix la ruta final:  " + newpath, initialCursorX, cursorY += 32, 2);
                             canvas.Display();
                             var key = Console.ReadKey(intercept: true);
 
@@ -639,7 +639,7 @@ namespace CosmosKernel1
 
                         while (inputActive8)
                         {
-                            DrawACSIIString(canvas, Color.White, "Introdueix el nom del fitxer a llegir tot el seu contingut: " + rfile, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Introdueix el nom del fitxer a llegir tot el seu contingut: " + rfile, initialCursorX, cursorY += 32, 2);
                             canvas.Display();
                             var key = Console.ReadKey(intercept: true);
 
@@ -667,7 +667,7 @@ namespace CosmosKernel1
                         var readfile = @"0:\" + rfile;
                         try
                         {
-                            DrawACSIIString(canvas, Color.White, File.ReadAllText(readfile), initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, File.ReadAllText(readfile), initialCursorX, cursorY += 32, 2);
                         }
                         catch (Exception e)
                         {
@@ -681,7 +681,7 @@ namespace CosmosKernel1
 
                         while (inputActive9)
                         {
-                            DrawACSIIString(canvas, Color.White, "Introdueix el nom del fitxer a llegir els seus bytes: " + rbytesf, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Introdueix el nom del fitxer a llegir els seus bytes: " + rbytesf, initialCursorX, cursorY += 32, 2);
                             canvas.Display();
                             var key = Console.ReadKey(intercept: true);
 
@@ -712,7 +712,7 @@ namespace CosmosKernel1
                         {
                             var fileContent = File.ReadAllBytes(readfilebyte);
                             var bits = BitConverter.ToString(fileContent).Replace("-", "");
-                            DrawACSIIString(canvas, Color.White, bits, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, bits, initialCursorX, cursorY += 32, 2);
                         }
                         catch (Exception e)
                         {
@@ -726,7 +726,7 @@ namespace CosmosKernel1
 
                         while (inputActive10)
                         {
-                            DrawACSIIString(canvas, Color.White, "Introdueix el signe de operacio que vols escollir: " + operacio, initialCursorX, cursorY += 16, 1);
+                            DrawACSIIString(canvas, Color.White, "Introdueix el signe de operacio que vols escollir: " + operacio, initialCursorX, cursorY += 32, 2);
                             canvas.Display();
                             var key = Console.ReadKey(intercept: true);
 
@@ -763,11 +763,11 @@ namespace CosmosKernel1
                                 {
                                     if (count==0)
                                     {
-                                        DrawACSIIString(canvas, Color.White, "Introdueix el primer numero: " + numMult, initialCursorX, cursorY += 16, 1);
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el primer numero: " + numMult, initialCursorX, cursorY += 32, 2);
                                         canvas.Display();
                                     } else if (count>0)
                                     {
-                                        DrawACSIIString(canvas, Color.White, "Introdueix el segon numero: " + numMult2, initialCursorX, cursorY += 16, 1);
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el segon numero: " + numMult2, initialCursorX, cursorY += 32, 2);
                                         canvas.Display();
                                     }
                                     var key = Console.ReadKey(intercept: true);
@@ -813,7 +813,7 @@ namespace CosmosKernel1
                                 var res = int.Parse(numMult);
                                 var res2 = int.Parse(numMult2);
                                 var resF = res * res2;
-                                DrawACSIIString(canvas, Color.White, "El resultat és: " + resF, initialCursorX, cursorY += 16, 1);
+                                DrawACSIIString(canvas, Color.White, "El resultat és: " + resF, initialCursorX, cursorY += 32, 2);
                                 break;
                             
                             case "+":
@@ -825,12 +825,12 @@ namespace CosmosKernel1
                                 {
                                     if (count2 == 0)
                                     {
-                                        DrawACSIIString(canvas, Color.White, "Introdueix el primer numero: " + numSum, initialCursorX, cursorY += 16, 1);
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el primer numero: " + numSum, initialCursorX, cursorY += 32, 2);
                                         canvas.Display();
                                     }
                                     else if (count2 > 0)
                                     {
-                                        DrawACSIIString(canvas, Color.White, "Introdueix el segon numero: " + numSum2, initialCursorX, cursorY += 16, 1);
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el segon numero: " + numSum2, initialCursorX, cursorY += 32, 2);
                                         canvas.Display();
                                     }
                                     var key = Console.ReadKey(intercept: true);
@@ -878,7 +878,7 @@ namespace CosmosKernel1
                                 var resSum = int.Parse(numSum);
                                 var resSum2 = int.Parse(numSum2);
                                 var resSumF = resSum + resSum2;
-                                DrawACSIIString(canvas, Color.White, "El resultat és: " + resSumF, initialCursorX, cursorY += 16, 1);
+                                DrawACSIIString(canvas, Color.White, "El resultat és: " + resSumF, initialCursorX, cursorY += 32, 2);
                                 break;
 
                             case "-":
@@ -890,12 +890,12 @@ namespace CosmosKernel1
                                 {
                                     if (count3 == 0)
                                     {
-                                        DrawACSIIString(canvas, Color.White, "Introdueix el primer numero: " + numRes, initialCursorX, cursorY += 16, 1);
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el primer numero: " + numRes, initialCursorX, cursorY += 32, 2);
                                         canvas.Display();
                                     }
                                     else if (count3 > 0)
                                     {
-                                        DrawACSIIString(canvas, Color.White, "Introdueix el segon numero: " + numRes2, initialCursorX, cursorY += 16, 1);
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el segon numero: " + numRes2, initialCursorX, cursorY += 32, 2);
                                         canvas.Display();
                                     }
                                     var key = Console.ReadKey(intercept: true);
@@ -943,7 +943,7 @@ namespace CosmosKernel1
                                 var resRes= int.Parse(numRes);
                                 var resRes2 = int.Parse(numRes2);
                                 var resResRes= resRes - resRes2;
-                                DrawACSIIString(canvas, Color.White, "El resultat és: " + resResRes, initialCursorX, cursorY += 16, 1);
+                                DrawACSIIString(canvas, Color.White, "El resultat és: " + resResRes, initialCursorX, cursorY += 32, 2);
                                 break;
 
                             case "/":
@@ -955,12 +955,12 @@ namespace CosmosKernel1
                                 {
                                     if (count4 == 0)
                                     {
-                                        DrawACSIIString(canvas, Color.White, "Introdueix el primer numero: " + numDiv, initialCursorX, cursorY += 16, 1);
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el primer numero: " + numDiv, initialCursorX, cursorY += 32, 2);
                                         canvas.Display();
                                     }
                                     else if (count4 > 0)
                                     {
-                                        DrawACSIIString(canvas, Color.White, "Introdueix el segon numero: " + numDiv2, initialCursorX, cursorY += 16, 1);
+                                        DrawACSIIString(canvas, Color.White, "Introdueix el segon numero: " + numDiv2, initialCursorX, cursorY += 32, 2);
                                         canvas.Display();
                                     }
                                     var key = Console.ReadKey(intercept: true);
@@ -1008,7 +1008,7 @@ namespace CosmosKernel1
                                 var resDiv= int.Parse(numDiv);
                                 var resDiv2= int.Parse(numDiv2);
                                 var resResDiv = resDiv / resDiv2;
-                                DrawACSIIString(canvas, Color.White, "El resultat és: " + resResDiv, initialCursorX, cursorY += 16, 1);
+                                DrawACSIIString(canvas, Color.White, "El resultat és: " + resResDiv, initialCursorX, cursorY += 32, 2);
                                 break;
                         }
                         break;
@@ -1018,7 +1018,7 @@ namespace CosmosKernel1
                         break;
 
                     default:
-                        DrawACSIIString(canvas, Color.White, "Comanda no trobada. Escriu 'help' per veure totes les comandes.", initialCursorX, cursorY += 16, 1);
+                        DrawACSIIString(canvas, Color.White, "Comanda no trobada. Escriu 'help' per veure totes les comandes.", initialCursorX, cursorY += 32, 2);
                         break;
                 }
 
@@ -1046,23 +1046,23 @@ namespace CosmosKernel1
         {
             try
             {
-                DrawACSIIString(canvas, Color.White, "netejar: neteja la pantalla", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "llistam: llista els subdirectoris", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "apagar -a: apagar el SO", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "cambiarDir <dir>: et permet cambiar de directori", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "mostra <fitxer>: funció per mostar el contingut de un arxiu", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "about: informació sobre el SO", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "reinicia: reinicia el sistema", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "espai: mira el espai del sistema", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "sysdisk: Mira el sistema d'arxius", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "files: Mostra el llistat dels fitxers del directori", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "nfile: Crea un nou fitxer", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "ndir: Crea un nou directori", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "delfdir: Borra un fitxer o directori", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "wtofile: Escriu al fitxer un contingut", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "mvfile: Mou un fitxer de ruta", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "rfile: Llegeix el contingut del fitxer", cursorX, cursorY += 16, 1);
-                DrawACSIIString(canvas, Color.White, "rbytesf: Llegeix els bytes del fitxer", cursorX, cursorY += 16, 1);
+                DrawACSIIString(canvas, Color.White, "netejar: neteja la pantalla", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "llistam: llista els subdirectoris", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "apagar -a: apagar el SO", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "cambiarDir <dir>: et permet cambiar de directori", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "mostra <fitxer>: funció per mostar el contingut de un arxiu", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "about: informació sobre el SO", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "reinicia: reinicia el sistema", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "espai: mira el espai del sistema", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "sysdisk: Mira el sistema d'arxius", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "files: Mostra el llistat dels fitxers del directori", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "nfile: Crea un nou fitxer", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "ndir: Crea un nou directori", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "delfdir: Borra un fitxer o directori", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "wtofile: Escriu al fitxer un contingut", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "mvfile: Mou un fitxer de ruta", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "rfile: Llegeix el contingut del fitxer", cursorX, cursorY += 32, 2);
+                DrawACSIIString(canvas, Color.White, "rbytesf: Llegeix els bytes del fitxer", cursorX, cursorY += 32, 2);
 
                 canvas.Display();
             }
